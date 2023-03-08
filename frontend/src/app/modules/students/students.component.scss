@@ -1,0 +1,30 @@
+table {
+    width: 100%;
+}
+
+.table-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+}
+
+.table-header-container-left button {
+    margin-left: 20px;
+
+    &:hover {
+        background-color: #E91E63
+    }
+}
+
+mat-header-cell,
+mat-cell {
+    justify-content: center;
+}
+
+.table-header-container-right mat-form-field {
+    display: flex;
+    margin-right: 70px;
+    font-size: 14px;
+    width: 100%;
+}

@@ -1,0 +1,32 @@
+a {
+    margin: 30px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &:hover {
+        color: #E91E63
+    }
+
+    &:focus {
+        color: #E91E63
+    }
+
+    &:active {
+        color: #E91E63
+    }
+}
+
+mat-icon {
+    margin-right: 1rem;
+}
+
+.app-drawer-container {
+    flex: 1;
+}
+
+.app-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}

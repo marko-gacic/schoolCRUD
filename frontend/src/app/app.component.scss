@@ -1,0 +1,24 @@
+html,
+body {
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 99%;
+    height: 80%;
+    margin: 10px;
+    border: 1px solid #555;
+
+    mat-drawer {
+        width: 280px;
+    }
+
+    mat-drawer-content {
+        margin-right: 30px;
+        margin-left: 300px;
+    }
+}

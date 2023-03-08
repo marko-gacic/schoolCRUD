@@ -1,0 +1,93 @@
+<div class="table-header-container">
+  <div class="table-header-container-left">
+    <button mat-raised-button color="primary" (click)="openAddDialog()">Add subject</button>
+  </div>
+  <div class="table-header-container-right">
+    <mat-form-field appearance="standard">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" [(ngModel)]="value" (keyup)="applyFilter($event)" placeholder="Start typing..."
+        #input>
+      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+<mat-table [dataSource]="subjects" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z5">
+
+  <!-- Id number Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by id" *matHeaderCellDef> Id
+      number
+    </mat-header-cell>
+    <mat-cell *matCellDef="let subject"> {{subject.id}} </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by name" *matHeaderCellDef> Name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let subject"> {{subject.name}} </mat-cell>
+  </ng-container>
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by description" *matHeaderCellDef> Description
+    </mat-header-cell>
+    <mat-cell *matCellDef="let subject"> {{subject.description}} </mat-cell>
+  </ng-container>
+
+  <!-- Number of Esp Column -->
+  <ng-container matColumnDef="numberOfEsp">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by number of esp" *matHeaderCellDef> Number of Esp
+    </mat-header-cell>
+    <mat-cell *matCellDef="let subject"> {{subject.numberOfEsp}} </mat-cell>
+  </ng-container>
+
+  <!-- Semester column -->
+  <ng-container matColumnDef="semester">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by number of esp" *matHeaderCellDef> Semester
+    </mat-header-cell>
+    <mat-cell *matCellDef="let subject"> {{subject.semester}} </mat-cell>
+  </ng-container>
+
+  <!-- Details column -->
+  <ng-container matColumnDef="details">
+    <mat-header-cell *matHeaderCellDef> More details </mat-header-cell>
+    <mat-cell *matCellDef="let subject">
+      <button mat-button matTooltip="Subject details" matTooltipPosition="after">Details</button>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Edit column -->
+  <ng-container matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+    <mat-cell *matCellDef="let subject">
+      <button mat-button matTooltip="Edit subject" matTooltipPosition="after" color="primary"
+        (click)="openEditDialog(subject)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Delete column -->
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+    <mat-cell *matCellDef="let subject">
+      <button mat-button matTooltip="Delete subject" color="warn" (click)="openDeleteDialog(subject)"
+        matTooltipPosition="after">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<!-- Pagination -->
+<mat-paginator itemsPerPageLabel="Subjects per page" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="10"
+  showFirstLastButtons aria-label="Select page number">
+</mat-paginator>
+<mat-divider></mat-divider>

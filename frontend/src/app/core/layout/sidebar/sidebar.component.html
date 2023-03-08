@@ -1,0 +1,47 @@
+<mat-sidenav-container class='app-drawer-container' fullscreen>
+    <mat-sidenav *ngIf="authService.isLoggedIn$ | async" #sidenav mode="side" opened>
+        <div>
+            <div>
+                <a mat-button color="primary" routerLink="/dashboard">
+                    <mat-icon>dashboard</mat-icon>
+                    Dashboard
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+            <div>
+                <a mat-button color="primary" routerLink="/students">
+                    <mat-icon>school</mat-icon>
+                    Students
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+            <div>
+                <a mat-button color="primary" routerLink="/professors">
+                    <mat-icon>people</mat-icon>
+                    Professors
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+            <a mat-button color="primary" routerLink="/subjects">
+                <mat-icon>book</mat-icon>
+                Subjects
+            </a>
+            <mat-divider></mat-divider>
+            <div>
+                <a mat-button color="primary" routerLink="/exam-period">
+                    <mat-icon>calendar_today</mat-icon>
+                    Exam Period
+                </a>
+            </div>
+            <mat-divider></mat-divider>
+            <a mat-button color="primary" routerLink="/exams">
+                <mat-icon>date_range</mat-icon>
+                Exams
+            </a>
+            <mat-divider></mat-divider>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

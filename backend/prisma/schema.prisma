@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model city {
+  id         Int         @id @default(autoincrement())
+  postalCode Int
+  cityName   String      @unique(map: "CityName_UNIQUE") @db.VarChar(45)
+  professor  professor[]
+  student    student[]
+}
+
+model title {
+  id        Int         @unique @default(autoincrement())
+  name      String      @db.VarChar(55)
+  professor professor[]
+}
+
+model role {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique(map: "RoleName_UNIQUE") @db.VarChar(45)
+  professor professor[]
+  student   student[]
+  user      user[]
+}
+
+model professor {
+  id             Int       @id @unique(map: "idprofessor_UNIQUE") @default(autoincrement())
+  firstName      String    @db.VarChar(30)
+  lastName       String    @db.VarChar(30)
+  email          String?   @unique(map: "email_UNIQUE") @db.VarChar(255)
+  address        String?   @db.VarChar(50)
+  postalCode     Int?
+  phone          String?
+  reelectionDate DateTime
+  titleId        Int?
+  roleId         Int?
+  cityId         Int?
+  subjectId      Int?
+  examId         Int?
+  city           city?     @relation(fields: [cityId], references: [id])
+  exam           exam?     @relation(fields: [examId], references: [id])
+  role           role?     @relation(fields: [roleId], references: [id])
+  title          title?    @relation(fields: [titleId], references: [id])
+  subject        subject[] @relation("professortosubject")
+
+  @@index([cityId], map: "professor_cityId_fkey")
+  @@index([examId], map: "professor_examId_fkey")
+  @@index([roleId], map: "professor_roleId_fkey")
+  @@index([titleId], map: "professor_titleId_fkey")
+}
+
+model subject {
+  id              Int               @id @unique @default(autoincrement())
+  name            String            @db.VarChar(30)
+  description     String?           @db.VarChar(255)
+  numberOfEsp     Int
+  yearOfStudy     Int
+  semester        String            @db.VarChar(10)
+  examId          Int?
+  exam            exam?             @relation(fields: [examId], references: [id])
+  student_subject student_subject[]
+  professor       professor[]       @relation("professortosubject")
+  student         student[]         @relation("studenttosubject")
+
+  @@index([examId], map: "subject_examId_fkey")
+}
+
+model examregistration {
+  id                 Int      @id @unique @default(autoincrement())
+  examId             Int?
+  studentid Int?
+  exam               exam?    @relation(fields: [examId], references: [id])
+  student            student? @relation(fields: [studentid], references: [id])
+
+  @@index([examId], map: "examregistration_examId_fkey")
+  @@index([studentid], map: "examregistration_studentid_fkey")
+}
+
+model exam {
+  id               Int                @id @unique @default(autoincrement())
+  examperiodId     Int?
+  date             DateTime
+  subjectId        Int
+  professorId      Int
+  examperiod       examperiod?        @relation(fields: [examperiodId], references: [id])
+  examregistration examregistration[]
+  professor        professor[]
+  student          student[]
+  subject          subject[]
+
+  @@index([examperiodId], map: "exam_examperiodId_fkey")
+}
+
+model examperiod {
+  id      Int       @id @unique(map: "examPeriod_id_key") @default(autoincrement())
+  name    String    @unique(map: "name_UNIQUE") @db.VarChar(50)
+  end     DateTime  @unique(map: "end_UNIQUE")
+  start   DateTime  @unique(map: "start_UNIQUE")
+  status  Boolean
+  exam    exam[]
+  student student[]
+}
+
+model student_subject {
+  id        Int     @id @default(autoincrement())
+  studentId Int
+  subjectId Int
+  student   student @relation(fields: [studentId], references: [id])
+  subject   subject @relation(fields: [subjectId], references: [id])
+
+  @@index([studentId], map: "student_subject_studentId_fkey")
+  @@index([subjectId], map: "student_subject_subjectId_fkey")
+}
+
+model student {
+  id                 Int                @id @unique(map: "student_id_key") @default(autoincrement())
+  indexYear          Int
+  firstName          String             @db.VarChar(30)
+  lastName           String             @db.VarChar(30)
+  email              String?            @unique(map: "email_UNIQUE") @db.VarChar(255)
+  address            String?            @db.VarChar(50)
+  postalCode         Int
+  currentYearOfStudy Int
+  roleId             Int?
+  cityId             Int?
+  examId             Int?
+  examperiodId       Int?
+  city               city?              @relation(fields: [cityId], references: [id])
+  exam               exam?              @relation(fields: [examId], references: [id])
+  examperiod         examperiod?        @relation(fields: [examperiodId], references: [id])
+  role               role?              @relation(fields: [roleId], references: [id])
+  examregistration   examregistration[]
+  student_subject    student_subject[]
+  subject            subject[]          @relation("studenttosubject")
+
+  @@index([cityId], map: "student_cityId_fkey")
+  @@index([examId], map: "student_examId_fkey")
+  @@index([roleId], map: "student_roleId_fkey")
+  @@index([examperiodId], map: "student_examperiodId_fkey")
+}
+
+model user {
+  id       Int    @id @unique(map: "iduser_UNIQUE") @default(autoincrement())
+  password String @db.VarChar(255)
+  roleId   Int
+  username String @unique(map: "user_UNIQUE") @db.VarChar(45)
+  role     role   @relation(fields: [roleId], references: [id])
+
+  @@index([roleId], map: "user_roleId_fkey")
+}

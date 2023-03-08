@@ -1,0 +1,34 @@
+<div class="go-back">
+    <button mat-mini-fab color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>
+<div *ngIf="professor">
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>General information</mat-card-title>
+            <mat-card-subtitle>{{professor.firstName}} {{professor.lastName}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p><b>Professor Id: </b>{{professor.id}}</p>
+            <p><b>Full name: </b>{{professor.firstName}} {{professor.lastName}}</p>
+            <p><b>Address:</b> {{professor.address}}, {{professor.postalCode}}</p>
+            <p><b>City:</b> {{professor.city.cityName}}</p>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="card-bottom">
+        <mat-card-header>
+            <mat-card-title>Additional information</mat-card-title>
+            <mat-card-subtitle>Detailed professor information</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p><b>Email address: </b>{{professor.email}}</p>
+            <p><b>Reelection date:</b> {{professor.reelectionDate | date: 'mediumDate'}}</p>
+            <p><b>Phone number:</b> {{professor.phone}}</p>
+            <p><b>Occupation:</b> {{professor.role.name | titlecase}} </p>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div *ngIf="!professor">
+    {{statusMessage}}
+</div>

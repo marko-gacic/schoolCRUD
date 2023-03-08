@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>Add new professor</h2>
+<form [formGroup]="professorForm">
+  <mat-dialog-content>
+
+    <div class="container">
+
+      <!-- Professor first name field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Professor first name</mat-label>
+        <input matInput placeholder="name..." formControlName="firstName" minlength="3" required #name>
+        <mat-error *ngIf="name.minLength <= 3">Name must have at least 3 letters</mat-error>
+      </mat-form-field>
+
+      <!-- Professor last name field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Professor last name</mat-label>
+        <input matInput placeholder="last name..." minlength="3" formControlName="lastName" required #lastName
+          minLength="3">
+        <mat-error *ngIf="lastName.minLength <= 3">Last name must have at least 3 letters</mat-error>
+      </mat-form-field>
+
+      <!-- Professor title field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <mat-select formControlName="titleId" name="titleId">
+          <mat-option *ngFor="let title of titles" [value]="title.id">
+            {{title.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Professor email field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Professor email</mat-label>
+        <input matInput placeholder="email address..." formControlName="email" required minLength="3">
+        <mat-error *ngIf="lastName.minLength <= 3">Email must have at least 3 letters</mat-error>
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+
+      <!-- Professor address field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Professor address</mat-label>
+        <input matInput placeholder="address..." formControlName="address" required #address>
+        <mat-error *ngIf="address.minLength <= 3">Address must have at least 3 letters</mat-error>
+        <mat-icon matSuffix>location_on</mat-icon>
+      </mat-form-field>
+
+      <!-- Professor postal code field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Postal code</mat-label>
+        <input type="number" placeholder="enter postal code..." matInput formControlName="postalCode" required>
+      </mat-form-field>
+
+      <!-- Professor phone number field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Phone number</mat-label>
+        <input type="text" matInput formControlName="phone" placeholder="phone number..." required>
+        <mat-icon matSuffix>phone</mat-icon>
+      </mat-form-field>
+
+      <!-- Professor reelection date datepicker -->
+      <mat-form-field appearance="fill">
+        <mat-label>Reelection date</mat-label>
+        <input matInput [matDatepicker]="datePicker" formControlName="reelectionDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button mat-dialog-close mat-dialog-close="true" color="primary"
+      (click)="onSubmit(professorForm.value)">
+      Add professor
+    </button>
+    <button mat-button mat-dialog-close mat-dialog-close="false">Go back <mat-icon>arrow_back</mat-icon></button>
+  </mat-dialog-actions>
+</form>

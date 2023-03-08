@@ -1,0 +1,93 @@
+<div class="table-header-container">
+  <div class="table-header-container-left">
+    <button mat-raised-button color="primary" (click)="openAddDialog()">Add professor</button>
+  </div>
+
+  <div class="table-header-container-right">
+    <mat-form-field appearance="standard">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" [(ngModel)]="value" (keyup)="applyFilter($event)" placeholder="Start typing..."
+        #input>
+      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+</div>
+<mat-table [dataSource]="professors" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z5">
+
+  <!-- Index number Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by id" *matHeaderCellDef> Id
+    </mat-header-cell>
+    <mat-cell *matCellDef="let professor"> {{professor.id}} </mat-cell>
+  </ng-container>
+
+  <!-- First name Column -->
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by name" *matHeaderCellDef> Name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let professor"> {{professor.firstName}} </mat-cell>
+  </ng-container>
+
+  <!-- Last name Column -->
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by last name" *matHeaderCellDef> Last Name
+    </mat-header-cell>
+    <mat-cell *matCellDef="let professor"> {{professor.lastName}} </mat-cell>
+  </ng-container>
+
+  <!-- Email Column -->
+  <ng-container matColumnDef="email">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by email" *matHeaderCellDef> Email
+    </mat-header-cell>
+    <mat-cell *matCellDef="let professor"> {{professor.email}} </mat-cell>
+  </ng-container>
+
+  <!-- Email Column -->
+  <ng-container matColumnDef="postalCode">
+    <mat-header-cell mat-sort-header sortActionDescription="Sort by postalCode" *matHeaderCellDef> Postal Code
+    </mat-header-cell>
+    <mat-cell *matCellDef="let professor"> {{professor.postalCode}} </mat-cell>
+  </ng-container>
+
+  <!-- Details column -->
+  <ng-container matColumnDef="details">
+    <mat-header-cell *matHeaderCellDef> More details </mat-header-cell>
+    <mat-cell *matCellDef="let professor">
+      <button [routerLink]="['/professor', professor.id]" mat-button>
+        <mat-icon> list_alt</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Edit column -->
+  <ng-container matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+    <mat-cell *matCellDef="let professor">
+      <button mat-button color="primary" (click)="openEditDialog(professor)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Delete column -->
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+    <mat-cell *matCellDef="let professor">
+      <button mat-button color="warn" (click)="openDeleteDialog(professor)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<!-- Pagination -->
+<mat-paginator itemsPerPageLabel="Professors per page" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="10"
+  showFirstLastButtons aria-label="Select page number">
+</mat-paginator>
+<mat-divider></mat-divider>
